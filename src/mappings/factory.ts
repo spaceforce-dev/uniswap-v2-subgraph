@@ -83,32 +83,39 @@ export function handleNewPair(event: PairCreated): void {
     token1.txCount = ZERO_BI
   }
 
+  
   let pair = new Pair(event.params.pair.toHexString()) as Pair
-  pair.token0 = token0.id
-  pair.token1 = token1.id
-  pair.liquidityProviderCount = ZERO_BI
-  pair.createdAtTimestamp = event.block.timestamp
-  pair.createdAtBlockNumber = event.block.number
-  pair.txCount = ZERO_BI
-  pair.reserve0 = ZERO_BD
-  pair.reserve1 = ZERO_BD
-  pair.trackedReserveETH = ZERO_BD
-  pair.reserveETH = ZERO_BD
-  pair.reserveUSD = ZERO_BD
-  pair.totalSupply = ZERO_BD
-  pair.volumeToken0 = ZERO_BD
-  pair.volumeToken1 = ZERO_BD
-  pair.volumeUSD = ZERO_BD
-  pair.untrackedVolumeUSD = ZERO_BD
-  pair.token0Price = ZERO_BD
-  pair.token1Price = ZERO_BD
+    pair.token0 = token0.id
+    pair.token1 = token1.id
+    pair.liquidityProviderCount = ZERO_BI
+    pair.createdAtTimestamp = event.block.timestamp
+    pair.createdAtBlockNumber = event.block.number
+    pair.txCount = ZERO_BI
+    pair.reserve0 = ZERO_BD
+    pair.reserve1 = ZERO_BD
+    pair.trackedReserveETH = ZERO_BD
+    pair.reserveETH = ZERO_BD
+    pair.reserveUSD = ZERO_BD
+    pair.totalSupply = ZERO_BD
+    pair.volumeToken0 = ZERO_BD
+    pair.volumeToken1 = ZERO_BD
+    pair.volumeUSD = ZERO_BD
+    pair.untrackedVolumeUSD = ZERO_BD
+    pair.token0Price = ZERO_BD
+    pair.token1Price = ZERO_BD
 
-  // create the tracked contract based on the template
-  PairTemplate.create(event.params.pair)
+  if (event.params.pair.toHexString() == '0xe46935ae80e05cdebd4a4008b6ccaa36d2845370' || event.params.pair.toHexString() == '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852') {
+  
+      // create the tracked contract based on the template
+      PairTemplate.create(event.params.pair)
+    
+      // save updated values
+      token0.save()
+      token1.save()
+      pair.save()
+      factory.save()
+    
+  }
 
-  // save updated values
-  token0.save()
-  token1.save()
-  pair.save()
-  factory.save()
+
 }
